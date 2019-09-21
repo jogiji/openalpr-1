@@ -80,7 +80,7 @@ public class Utils {
         PrintWriter pw = null;
         try {
             // If the file being copied is "openalpr.conf" then copy it with BufferedReader so that we can replace the
-            // "runtime_dir = /data/data/com.sandro.openalprsample/runtime_data" with user's real data directory. Since Android 5.0 (phones)
+            // "runtime_dir = /data/data/com.mecofarid.openalprsample/runtime_data" with user's real data directory. Since Android 5.0 (phones)
             // and Android 4.4 (Tablets) multiple user accounts are supported so symlink for data directory will be "/data/user/12/....."
             if (fromAssetPath.contains(fileToBeEdited)){
                 bfr = new BufferedReader(new InputStreamReader(assetManager.open(fromAssetPath)));

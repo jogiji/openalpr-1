@@ -72,7 +72,7 @@ public interface OpenALPR {
         /**
          *
          * @param context The application context.
-         * @param androidDataDir The application data directory. Something like: "/data/data/com.sandro.openalprsample".
+         * @param androidDataDir The application data directory. Something like: "/data/data/com.mecofarid.openalprsample".
          *
          * @return returns the OpenALPR instance.
          */

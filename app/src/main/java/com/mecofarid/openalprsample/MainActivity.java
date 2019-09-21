@@ -1,4 +1,4 @@
-package com.sandro.openalprsample;
+package com.mecofarid.openalprsample;
 
 import android.Manifest;
 import android.app.Activity;

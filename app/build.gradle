@@ -5,9 +5,9 @@ android {
     buildToolsVersion "23.0.1"
 
     defaultConfig {
-        applicationId "com.sandro.openalprsample"
+        applicationId "com.mecofarid.openalprsample"
         minSdkVersion 16
-        targetSdkVersion 23
+        targetSdkVersion 26
         versionCode 1
         versionName "1.1.2"
     }

@@ -1,76 +1,70 @@
-# openalpr-android
-[![Release](https://jitpack.io/v/SandroMachado/openalpr-android.svg)](https://jitpack.io/#SandroMachado/openalpr-android)
+## Disclamer
+This project is wrapper of [android-openalpr](https://github.com/SandroMachado/openalpr-android). The reason I developed this project on top of original one is given in "Reason to be Born" section below.
 
-OpenALPR is an open source Automatic License Plate Recognition library written in C++ with bindings in C#, Java, Node.js, and Python. This project ports this library to Android. You can find the demo application `apk` at the [releases](https://github.com/SandroMachado/openalpr-android/releases) tab.
+## Description
+This library is designed to recogise license plates.
+
+OpenALPR is an open source Automatic License Plate Recognition library written in C++ with bindings in C#, Java, Node.js, and Python. This project ports this library to Android. You can find the demo application `apk` at the [releases](https://github.com/mecoFarid/openalpr/releases) tab.
 
 ![Screenshot](images/screenshot.png "Main Activity Sample application")
 
-# Gradle Dependency
+## Reason to be Born
+Original library requires manual implementation which is problematic in some cases. For example original library requires to manually add config file to assets and then edit that file to have a hardcoded path to data direcotry (e.g. `/data/data/com.package.name/....`) of the device. That is the problem because since Android 5.0 there is multiple users support that means they each will have symlink which will make data directory look like `/data/user/0/com.package.name/....` instead of `/data/data/com.package.name/.....`.
+Simply that is the reason to wrap the original library to get rid of manual configurations.
 
-## Repository
-
-First, add the following to your app's `build.gradle` file:
-
-```Gradle
-repositories {
-    maven { url "https://jitpack.io" }
-}
-```
-
-Them include the openalpr-android dependency:
-
-```gradle
-dependencies {
-
-    // ... other dependencies here.    	
-    compile 'com.github.SandroMachado:openalpr-android:1.1.2'
-}
-```
-
-# Usage
-
-## Code
-
-Copy the [OpenALPR configuration file](./openalpr.conf) to your android project assets directory `/main/assets/runtime_data/openalpr.conf`, open it and update the `runtime_dir` to your project directory (for instance, for the sample project the directory is: `runtime_dir = /data/data/com.sandro.openalprsample/runtime_data`). After that just follow the code example bellow. To see a full example check the [sample application](./Sample/OpenALPRSample/app/src/main/java/com/sandro/openalprsample/MainActivity.java).
-
-```Java
-
-static final String ANDROID_DATA_DIR = "/data/data/com.sandro.openalprsample";
-
-final String openAlprConfFile = ANDROID_DATA_DIR + File.separatorChar + "runtime_data" + File.separatorChar + "openalpr.conf";
-
-String result = OpenALPR.Factory.create(MainActivity.this, ANDROID_DATA_DIR).recognizeWithCountryRegionNConfig("us", "", image.getAbsolutePath(), openAlprConfFile, 10);
-```
-
-## Interface
-
-```Java
-/*
- Method interface.
-*/
-
-/**
- * Recognizes the licence plate.
- *
- * @param country        - Country code to identify (either us for USA or eu for Europe). Default=us.
- * @param region         -  Attempt to match the plate number against a region template (e.g., md for Maryland, ca for California).
- * @param imgFilePath    - Image containing the license plate.
- * @param configFilePath - Config file path (default /etc/openalpr/openalpr.conf)
- * @param topN           - Max number of possible plate numbers to return(default 10)
- *
- * @return - JSON string of results
- */
-
-public String recognizeWithCountryRegionNConfig(String country, String region, String configFilePath, String imgFilePath, int topN);
-
-```
-# Sample Application
-
-The repository also includes a [sample application](./Sample/OpenALPRSample) that can be tested with Android Studio.
+## Demo
 
 ![Screencast](images/screencast.gif "Main Activity Sample application screencast")
 
-# Credits
 
- - [OpenALPR](https://github.com/openalpr/openalpr) Parent Project
- - [OpenAlprDroidApp](https://github.com/sujaybhowmick/OpenAlprDroidApp) for the compiled sources and sample that helped port the project to an android library
+## Usage
+
+### Integration
+[![](https://jitpack.io/v/mecoFarid/openalpr.svg)](https://jitpack.io/#mecoFarid/openalpr)
+
+#### Step 1.
+Add this in your root build.gradle at the end of repositories:
+
+```
+allprojects {
+    repositories {
+        ...
+        maven { url 'https://jitpack.io' }
+    }
+}
+```
+#### Step 2.
+Add the dependency
+```
+dependencies {
+    ...
+    implementation 'com.github.mecoFarid:openalpr:1.0.0'
+}
+```
+### Troubleshooting
+If your `targetSdkVersion >= 24` and you're running your app on a device with SDK version 24 and over then you'll get following error:
+
+```
+android.os.FileUriExposedException: file:///storage/emulated/0/OpenALPR/2019-09-21-01-32-13.jpg exposed beyond app through ClipData.Item.getUri()
+```
+
+#### Solution 1: Easy but Not Recommended
+Add following lines in your Activity/Fragment where you interact with OpenALPR.
+
+```
+if(Build.VERSION.SDK_INT>=24){
+   try{
+      Method m = StrictMode.class.getMethod("disableDeathOnFileUriExposure");
+      m.invoke(null);
+   }catch(Exception e){
+      e.printStackTrace();
+   }
+}
+```
+
+#### Solution 2: Recommended
+Please follow [this solution](https://stackoverflow.com/q/38200282/5636313) on Stackoverflow to resolve it in a moment.
+
+## Credits
+
+ - [openalpr-android](https://github.com/SandroMachado/openalpr-android) Parent Project
