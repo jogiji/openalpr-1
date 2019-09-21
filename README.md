@@ -45,7 +45,7 @@ dependencies {
 ### Usage
 Please see the sample app [Activity](https://github.com/mecoFarid/openalpr/blob/master/app/src/main/java/com/mecofarid/openalprsample/MainActivity.java) to get started.
 
-### Troubleshooting
+## Troubleshooting
 If your `targetSdkVersion >= 24` and you're running your app on a device with SDK version 24 and over then you'll get following error:
 
 ```
